@@ -12,6 +12,20 @@ app.get('/api/users', (req, res) => {
         .then(users => res.json(users));
 });
 
+// Retrieve blog by ID
+app.get('/api/blogs/:userId?', (req, res) => {
+    let query;
+    if(req.params.userId) {
+        query = Blog.findAll({ include: [
+            { model: User, where: { id: req.params.userId} },
+            { model: Tag }
+        ]})
+    } else {
+        query = Blog.findAll({ include: [Tag, User]})
+    }
+    return query.then(blogs => res.json(blogs));
+});
+
 // Create user
 app.post('/api/users', (req, res) => {
     User.create(req.body)
