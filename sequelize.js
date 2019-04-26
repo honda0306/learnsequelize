@@ -23,6 +23,7 @@ Blog.belongsToMany(Tag, { through: BlogTag, unique: false });
 Tag.belongsToMany(Blog, { through: BlogTag, unique: false });
 Blog.belongsTo(User);
 
+// `force: true` cleares the db upon startup and creates brand new db and tables
 sequelize.sync({ force: true })
     .then(() => {
         console.log(`Database & tables created.`);
